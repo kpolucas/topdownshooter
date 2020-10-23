@@ -27,19 +27,19 @@ public class Sniper : MonoBehaviour
 
         // busco el mas cercano cada 1s
         elapsed += Time.deltaTime;
-        if (elapsed >= 1f)
+        if(true)
         {
             elapsed = elapsed % 1f;
-            closestEnemy = GetClosestEnemy();
+            closestEnemy = GetClosestEnemyInsideFOV();
             if(closestEnemy != null)
             {
-                isEnemyInsideFOV();
+                Debug.Log("closest" + closestEnemy.position);
             }
         }
     }
 
 
-    Transform GetClosestEnemy()
+    Transform GetClosestEnemyInsideFOV()
     {
         multipleEnemies = GameObject.FindGameObjectsWithTag("Enemy");
         float closestDistance = Mathf.Infinity;
@@ -47,28 +47,18 @@ public class Sniper : MonoBehaviour
 
         foreach (GameObject go in multipleEnemies)
         {
-            float currentDistance = Vector3.Distance(transform.position, go.transform.position);
-            if(currentDistance < closestDistance)
+            // if inside FOV
+            if(Vector3.Distance(go.transform.position, transform.position) < viewDistance &&
+                Vector3.Angle(transform.up, (go.transform.position - transform.position)) < fov/2)
             {
-                closestDistance = currentDistance;
-                trans = go.transform;
-            }
+                float currentDistance = Vector3.Distance(transform.position, go.transform.position);
+                if (currentDistance < closestDistance)
+                {
+                    closestDistance = currentDistance;
+                    trans = go.transform;
+                }
+            }          
         }
         return trans;
-    }
-
-    bool isEnemyInsideFOV()
-    {
-        if (Vector3.Distance(closestEnemy.position, transform.position) < viewDistance && 
-            Vector3.Angle(transform.up, (closestEnemy.position - transform.position)) < fov/2)
-        {
-            Debug.Log("TRUE");
-            return true;
-        }
-        else
-        {
-            Debug.Log("FALSE");
-            return false;
-        }
     }
 }
