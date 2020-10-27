@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Sniper : MonoBehaviour
 {
-    [SerializeField] FieldOfView fieldOfView;
+    [SerializeField] FieldOfView pfFieldOfView;
     [SerializeField] float fov = 50f;
     [SerializeField] float viewDistance = 6f;
+    FieldOfView fieldOfView;
 
     GameObject[] multipleEnemies;
     Transform closestEnemy = null;
@@ -15,6 +16,7 @@ public class Sniper : MonoBehaviour
 
     void Start()
     {
+        fieldOfView = Instantiate(pfFieldOfView, Vector3.zero, Quaternion.identity);
         fieldOfView.viewDistance = viewDistance;
         fieldOfView.fov = fov;
     }
@@ -27,13 +29,31 @@ public class Sniper : MonoBehaviour
 
         // busco el mas cercano cada 1s
         elapsed += Time.deltaTime;
-        if(true)
+        //if (elapsed >= 1f)
+        if (true)
         {
             elapsed = elapsed % 1f;
             closestEnemy = GetClosestEnemyInsideFOV();
             if(closestEnemy != null)
             {
-                Debug.Log("closest" + closestEnemy.position);
+                Shoot(closestEnemy.position);
+            }
+        }
+    }
+
+
+    void Shoot(Vector3 closestEnemyPosition)
+    {
+        //https://www.youtube.com/watch?v=THnivyG0Mvo&t=297s
+        RaycastHit hit;
+        //Debug.DrawLine(transform.position, closestEnemyPosition, Color.red);
+        if (Physics.Raycast(transform.position, closestEnemyPosition, out hit)) // <---- NO anda el if WHY?
+        {
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                Debug.Log("70DMG");
+                enemy.TakeDamage(70);
             }
         }
     }
