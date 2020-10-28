@@ -26,11 +26,9 @@ public class Sniper : MonoBehaviour
         fieldOfView.SetOrigin(transform.position);
         fieldOfView.SetAimDirection(transform.up);
 
-
         // busco el mas cercano cada 1s
         elapsed += Time.deltaTime;
-        //if (elapsed >= 1f)
-        if (true)
+        if (elapsed >= 1f)
         {
             elapsed = elapsed % 1f;
             closestEnemy = GetClosestEnemyInsideFOV();
@@ -44,17 +42,15 @@ public class Sniper : MonoBehaviour
 
     void Shoot(Vector3 closestEnemyPosition)
     {
-        //https://www.youtube.com/watch?v=THnivyG0Mvo&t=297s
-        RaycastHit hit;
-        //Debug.DrawLine(transform.position, closestEnemyPosition, Color.red);
-        if (Physics.Raycast(transform.position, closestEnemyPosition, out hit)) // <---- NO anda el if WHY?
+        Vector3 closestEnemyDirection = (closestEnemyPosition - transform.position).normalized;
+        Debug.DrawRay(transform.position, closestEnemyDirection, Color.red);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, closestEnemyDirection);
+        if (hit)
         {
             Enemy enemy = hit.transform.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                Debug.Log("70DMG");
-                enemy.TakeDamage(70);
-            }
+            enemy.TakeDamage(20);
+            Debug.Log(enemy.health);
+            Debug.Log(hit.collider.transform.position);
         }
     }
 
