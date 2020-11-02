@@ -43,7 +43,6 @@ public class Sniper : MonoBehaviour
     void Shoot(Vector3 closestEnemyPosition)
     {
         Vector3 closestEnemyDirection = (closestEnemyPosition - transform.position).normalized;
-        Debug.DrawRay(transform.position, closestEnemyDirection, Color.red);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, closestEnemyDirection);
         if (hit)
         {
