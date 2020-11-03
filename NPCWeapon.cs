@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NPCWeapon : MonoBehaviour
 {
-    public int ammo = 0;
+    public int ammo = 10;
     public int damage = 10;
     public float fireRate = 1f;
     public float range = 6f;
@@ -24,7 +24,7 @@ public class NPCWeapon : MonoBehaviour
             elapsed = elapsed % 1f;
         }
 
-        if (closestEnemy != null && fireCountdown <= 0f)
+        if (closestEnemy != null && fireCountdown <= 0f && ammo > 0)
         {
             Shoot(closestEnemy);
             fireCountdown = 1 / fireRate;
@@ -62,10 +62,12 @@ public class NPCWeapon : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, closestEnemyDirection);
         if (hit)
         {
+            Debug.Log(hit.transform.name);
             Enemy enemy = hit.transform.GetComponent<Enemy>();
             enemy.TakeDamage(damage);
             Debug.Log(enemy.health);
         }
+        ammo--;
     }
 
     private void OnDrawGizmos()
