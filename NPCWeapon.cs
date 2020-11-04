@@ -60,9 +60,8 @@ public class NPCWeapon : MonoBehaviour
         Vector3 closestEnemyDirection = (_closestEnemy.position - transform.position).normalized;
         Debug.DrawRay(transform.position, (_closestEnemy.position - transform.position), color: Color.red, duration: 0.5f);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, closestEnemyDirection);
-        if (hit)
+        if (hit.transform.tag == "Enemy")
         {
-            Debug.Log(hit.transform.name);
             Enemy enemy = hit.transform.GetComponent<Enemy>();
             enemy.TakeDamage(damage);
             Debug.Log(enemy.health);

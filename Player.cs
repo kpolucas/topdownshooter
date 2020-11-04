@@ -6,15 +6,15 @@ public class Player : MonoBehaviour
 {
     public int ammo = 50;
 
-    private void OnCollisionStay2D(Collision2D col)
+    void OnTriggerStay2D(Collider2D col) 
     {
-        if(Input.GetKeyDown("R") && col.gameObject.tag == "Spot")
+        if(Input.GetKeyDown("space") && col.gameObject.tag == "Spot" && ammo > 0)  // <- Funciona pero a veces si a veces no
         {
             RefillAmmo(col);
         }
     }
 
-    void RefillAmmo(Collision2D _col)
+    void RefillAmmo(Collider2D _col)
     {
         NPCWeapon spot = _col.gameObject.GetComponent<NPCWeapon>();
         spot.ammo++;
