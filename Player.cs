@@ -5,20 +5,28 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int ammo = 50;
+    Collider2D col = null;
 
-    void OnTriggerStay2D(Collider2D col) 
+    private void Update()
     {
-        if(Input.GetKeyDown("space") && col.gameObject.tag == "Spot" && ammo > 0)  // <- Funciona pero a veces si a veces no
+        if(Input.GetKeyDown("space") && col != null && ammo > 0)
         {
             RefillAmmo(col);
-        }
+        } 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        col = collision;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        col = null;
+    }
     void RefillAmmo(Collider2D _col)
     {
         NPCWeapon spot = _col.gameObject.GetComponent<NPCWeapon>();
         spot.ammo++;
         ammo--;
-        Debug.Log(ammo);
     }
 }
