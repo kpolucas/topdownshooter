@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScrapDirt : MonoBehaviour
 {
 
-    public float timeToSpawn = 2f;
+    public float timeToSpawn = 5f;
     public GameObject ammoCrate;
     float timer;
 
@@ -25,8 +25,7 @@ public class ScrapDirt : MonoBehaviour
         if (timer <= 0)
         {
             timer = timeToSpawn;
-            Vector3 closeRandom = Random.insideUnitCircle;
-            Instantiate(ammoCrate, (transform.position + closeRandom), Quaternion.identity);
+            Instantiate(ammoCrate, (transform.position + new Vector3(1.7f,-0.5f,0)), Quaternion.identity);
         }
     }
 }

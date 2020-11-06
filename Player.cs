@@ -9,9 +9,16 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown("space") && col != null && ammo > 0)
+        if(col != null)
         {
-            RefillAmmo(col);
+            if(Input.GetKeyDown("r") && ammo > 0)
+            {
+                RefillAmmo(col);
+            }
+            if(Input.GetKeyDown("e"))
+            {
+                GrabNPC(col);
+            }
         } 
     }
 
@@ -23,10 +30,16 @@ public class Player : MonoBehaviour
     {
         col = null;
     }
+
     void RefillAmmo(Collider2D _col)
     {
         NPCWeapon spot = _col.gameObject.GetComponent<NPCWeapon>();
         spot.ammo++;
         ammo--;
+    }
+
+    void GrabNPC(Collider2D _col)
+    {
+        Debug.Log("grabNPC");
     }
 }
