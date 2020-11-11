@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public float speed = 5f;
     Vector2 movement;
-    
+
     void Update()
     {
         // Get input

@@ -5,19 +5,21 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int ammo = 50;
-    Collider2D col = null;
+    public bool hasNPC = true;
+    public Animator animator;
 
+    Collider2D col = null;
     private void Update()
     {
         if(col != null)
         {
-            if(Input.GetKeyDown("r") && ammo > 0)
+            if(Input.GetKeyDown("r") && col.tag=="Spot")
             {
                 RefillAmmo(col);
             }
-            if(Input.GetKeyDown("e"))
+            if(Input.GetKeyDown("e") && col.tag=="Spot")
             {
-                GrabNPC(col);
+                NPCInteraction(col);
             }
         } 
     }
@@ -33,13 +35,33 @@ public class Player : MonoBehaviour
 
     void RefillAmmo(Collider2D _col)
     {
-        NPCWeapon spot = _col.gameObject.GetComponent<NPCWeapon>();
-        spot.ammo++;
-        ammo--;
+        if (ammo > 0 && _col.gameObject.GetComponent<NPCWeapon>())
+        {
+            NPCWeapon spot = _col.gameObject.GetComponent<NPCWeapon>();
+            spot.ammo++;
+            ammo--;
+        }
     }
 
-    void GrabNPC(Collider2D _col)
+    void NPCInteraction(Collider2D _col)
     {
-        Debug.Log("grabNPC");
+        Spot spot = _col.gameObject.GetComponent<Spot>();
+        Animator spotAnimator = _col.gameObject.GetComponent<Animator>();
+        if (hasNPC && !spot.hasNPC)
+        {
+            hasNPC = false;
+            spot.hasNPC = true;
+
+            animator.SetBool("hasNPC", false);
+            spotAnimator.SetBool("hasNPC", true);
+        } 
+        else if(!hasNPC && spot.hasNPC)
+        {
+            hasNPC = true;
+            spot.hasNPC = false;
+
+            animator.SetBool("hasNPC", true);
+            spotAnimator.SetBool("hasNPC", false);
+        }
     }
 }

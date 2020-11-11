@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class ScrapDirt : MonoBehaviour
 {
-
     public float timeToSpawn = 5f;
     public GameObject ammoCrate;
     float timer;
+    Spot spot;
 
-    private void Start()
+    void Start()
     {
         timer = timeToSpawn;
+        spot = gameObject.GetComponent<Spot>();
     }
 
     void Update()
     {
-        SpawnBullets();
+        if (spot.hasNPC)
+        {
+            SpawnBullets();
+        }
     }
 
     void SpawnBullets()
@@ -25,7 +29,10 @@ public class ScrapDirt : MonoBehaviour
         if (timer <= 0)
         {
             timer = timeToSpawn;
-            Instantiate(ammoCrate, (transform.position + new Vector3(1.7f,-0.5f,0)), Quaternion.identity);
+            if(ammoCrate) // evita una missingreference Random
+            {
+                Instantiate(ammoCrate, (transform.position + new Vector3(1.7f, -0.5f, 0)), Quaternion.identity);
+            }
         }
     }
 }

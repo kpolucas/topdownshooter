@@ -13,23 +13,33 @@ public class NPCWeapon : MonoBehaviour
     Transform closestEnemy;
     float fireCountdown = 0;
 
+    Spot spot;
+
+    void Start()
+    {
+        spot = gameObject.GetComponent<Spot>();
+    }
 
     void Update()
     {
-        // escaneo por enemigos cada 1s
-        elapsed += Time.deltaTime;
-        if (elapsed >= 1f)
+        if(spot.hasNPC)
         {
-            closestEnemy = ClosestEnemyInsideRadius();
-            elapsed = elapsed % 1f;
-        }
+            // escaneo por enemigos cada 1s
+            elapsed += Time.deltaTime;
+            if (elapsed >= 1f)
+            {
+                closestEnemy = ClosestEnemyInsideRadius();
+                elapsed = elapsed % 1f;
+            }
 
-        if (closestEnemy != null && fireCountdown <= 0f && ammo > 0)
-        {
-            Shoot(closestEnemy);
-            fireCountdown = 1 / fireRate;
+            // disparo, la velocidad depende del fireRate
+            if (closestEnemy != null && fireCountdown <= 0f && ammo > 0)
+            {
+                Shoot(closestEnemy);
+                fireCountdown = 1 / fireRate;
+            }
+            fireCountdown -= Time.deltaTime;
         }
-        fireCountdown -= Time.deltaTime;
     }
 
     Transform ClosestEnemyInsideRadius()
