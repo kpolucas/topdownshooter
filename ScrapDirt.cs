@@ -8,15 +8,19 @@ public class ScrapDirt : MonoBehaviour
     public float timeToSpawn = 5f;
     public GameObject ammoCrate;
     float timer;
+    public bool active = true;
 
-    private void Start()
+    void Start()
     {
         timer = timeToSpawn;
     }
 
     void Update()
     {
-        SpawnBullets();
+        if(active)
+        {
+            SpawnBullets();
+        }
     }
 
     void SpawnBullets()
