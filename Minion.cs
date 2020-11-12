@@ -10,8 +10,13 @@ public class Minion : MonoBehaviour
         if (hitInfo.tag == "Player")
         {
             Player player = hitInfo.GetComponent<Player>();
-            player.hasNPC = true;
-            Destroy(gameObject);
+            if(!player.hasNPC)
+            {
+                Animator playerAnimator = hitInfo.GetComponent<Animator>();
+                player.hasNPC = true;
+                playerAnimator.SetBool("hasNPC", true);
+                Destroy(gameObject);
+            }
         }
     }
 }
