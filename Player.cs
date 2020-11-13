@@ -38,8 +38,8 @@ public class Player : MonoBehaviour
     {
         if (ammo > 0 && _col.gameObject.GetComponent<NPCWeapon>())
         {
-            NPCWeapon spot = _col.gameObject.GetComponent<NPCWeapon>();
-            spot.ammo++;
+            NPCWeapon npcweapon = _col.gameObject.GetComponent<NPCWeapon>();
+            npcweapon.ammo++;
             ammo--;
         }
     }

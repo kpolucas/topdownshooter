@@ -22,16 +22,19 @@ public class NPCWeapon : MonoBehaviour
 
     void Update()
     {
-        if(spot.hasNPC)
+        if (spot.IsBroken())
         {
-            // escaneo por enemigos cada 1s
-            elapsed += Time.deltaTime;
-            if (elapsed >= 1f)
-            {
-                closestEnemy = ClosestEnemyInsideRadius();
-                elapsed = elapsed % 1f;
-            }
+            return;
+        }
+        if (spot.hasNPC)
+        {
+            ScanEnemys();
+            CanPlayerShoot();
+        }
+    }
 
+    void CanPlayerShoot()
+    {
             // disparo, la velocidad depende del fireRate
             if (closestEnemy != null && fireCountdown <= 0f && ammo > 0)
             {
@@ -39,6 +42,16 @@ public class NPCWeapon : MonoBehaviour
                 fireCountdown = 1 / fireRate;
             }
             fireCountdown -= Time.deltaTime;
+    }
+
+    void ScanEnemys()
+    {
+        // escaneo por enemigos cada 1s
+        elapsed += Time.deltaTime;
+        if (elapsed >= 1f)
+        {
+            closestEnemy = ClosestEnemyInsideRadius();
+            elapsed = elapsed % 1f;
         }
     }
 
@@ -66,15 +79,14 @@ public class NPCWeapon : MonoBehaviour
 
     void Shoot(Transform _closestEnemy)
     {
-        // Revisar los nombres, funciona, pero es re enroscado
         Vector3 closestEnemyDirection = (_closestEnemy.position - transform.position).normalized;
-        Debug.DrawRay(transform.position, (_closestEnemy.position - transform.position), color: Color.red, duration: 0.5f);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, closestEnemyDirection);
+
+        Debug.DrawRay(transform.position, (_closestEnemy.position - transform.position), color: Color.red, duration: 0.5f);
         if (hit.transform.tag == "Enemy")
         {
             Enemy enemy = hit.transform.GetComponent<Enemy>();
             enemy.TakeDamage(damage);
-            Debug.Log(enemy.health);
         }
         ammo--;
     }
