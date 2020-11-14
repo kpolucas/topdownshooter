@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public enum SpawnState { SPAWNING, WAITING, COUNTING};
+    [SerializeField] enum SpawnState { SPAWNING, WAITING, COUNTING};
     
     [System.Serializable]
-    public class Wave
+    [SerializeField] class Wave
     {
         public string name; // name of the wave
         public Transform enemy; // type of enemy to spawn
@@ -15,17 +15,17 @@ public class WaveSpawner : MonoBehaviour
         public float rate; // how often spawn (1/rate)
     }
 
-    public Wave[] waves;
+    [SerializeField] Wave[] waves;
     private int nextWave = 0; // index of array waves
 
-    public float timeBetweenWaves = 3f;
+    [SerializeField] float timeBetweenWaves = 3f;
     float waveCountdown;
 
     private float enemySearchCowntdown = 1f;
 
     private SpawnState state = SpawnState.COUNTING;
 
-    public Transform[] spawnPoints;
+    [SerializeField] Transform[] spawnPoints;
 
     void Start()
     {
@@ -73,7 +73,7 @@ public class WaveSpawner : MonoBehaviour
         yield break;
     }
 
-    public void SpawnEnemy(Transform _enemy)
+    void SpawnEnemy(Transform _enemy)
     {
         Transform _sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Instantiate(_enemy, _sp.position, _sp.rotation);
