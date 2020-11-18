@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class NPCWeapon : MonoBehaviour
 {
+    // Meter en una clase weaponType o algo asi
     public int ammo = 10;
     public int damage = 10;
     public float fireRate = 1f;
     public float range = 6f;
+    //  
 
     float elapsed;
     Transform closestEnemy;
@@ -22,10 +24,6 @@ public class NPCWeapon : MonoBehaviour
 
     void Update()
     {
-        if (spot.IsBroken())
-        {
-            return;
-        }
         if (spot.hasNPC)
         {
             ScanEnemys();

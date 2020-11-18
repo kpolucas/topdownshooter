@@ -17,10 +17,6 @@ public class ScrapDirt : MonoBehaviour
 
     void Update()
     {
-        if(spot.IsBroken())
-        {
-            return;
-        }
         if (spot.hasNPC)
         {
             SpawnBullets();
