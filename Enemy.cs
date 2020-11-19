@@ -5,17 +5,40 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int health = 50;
-    float speed;
+    [SerializeField] float speed = 1f;
+
     GameObject playerBase;
 
-    private void Awake()
+    private Transform target;
+    private int waypointIndex = 0;
+
+    private void Start()
     {
-        speed = Random.Range(0.7f, 2.6f);
+        target = Waypoints.points[0];
         playerBase = GameObject.Find("PlayerBase");
     }
-    void Update()
+
+    private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, playerBase.transform.position, speed * Time.deltaTime);
+        Vector3 dir = target.position - transform.position;
+        transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+
+        if(Vector3.Distance(transform.position , target.position) <= 0.5f)
+        {
+            GetNextWaypoint();
+        }
+    }
+
+    void GetNextWaypoint()
+    {
+        if(waypointIndex >= Waypoints.points.Length - 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        waypointIndex++;
+        target = Waypoints.points[waypointIndex];
     }
 
     void OnTriggerEnter2D(Collider2D hitInfo)
