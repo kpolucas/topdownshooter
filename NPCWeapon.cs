@@ -16,10 +16,12 @@ public class NPCWeapon : MonoBehaviour
     float fireCountdown = 0;
 
     Spot spot;
+    Animator spotAnimator;
 
     void Start()
     {
         spot = gameObject.GetComponent<Spot>();
+        spotAnimator = gameObject.GetComponent<Animator>();
     }
 
     void Update()
@@ -37,6 +39,7 @@ public class NPCWeapon : MonoBehaviour
             if (closestEnemy != null && fireCountdown <= 0f && ammo > 0)
             {
                 Shoot(closestEnemy);
+                spotAnimator.SetTrigger("shoot");
                 fireCountdown = 1 / fireRate;
             }
             fireCountdown -= Time.deltaTime;
@@ -83,6 +86,7 @@ public class NPCWeapon : MonoBehaviour
         Debug.DrawRay(transform.position, (_closestEnemy.position - transform.position), color: Color.red, duration: 0.5f);
         if (hit.transform.tag == "Enemy")
         {
+            hit.transform.Translate(closestEnemyDirection * 0.3f); // <-- deshardcodear fuerza del impacto
             Enemy enemy = hit.transform.GetComponent<Enemy>();
             enemy.TakeDamage(damage);
         }

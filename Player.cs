@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int ammo = 50;
+    public int ammo = 0;
     public bool hasNPC = true;
     public Animator animator;
 
