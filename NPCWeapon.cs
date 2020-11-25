@@ -6,6 +6,7 @@ public class NPCWeapon : MonoBehaviour
 {
     // Meter en una clase weaponType o algo asi
     public int ammo = 10;
+    public int cartridge = 15;
     public int damage = 10;
     public float fireRate = 1f;
     public float range = 6f;

@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
         if (ammo > 0 && _col.gameObject.GetComponent<NPCWeapon>())
         {
             NPCWeapon npcweapon = _col.gameObject.GetComponent<NPCWeapon>();
-            npcweapon.ammo++;
+            npcweapon.ammo += npcweapon.cartridge;
             ammo--;
         }
     }

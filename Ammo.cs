@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Magazine : MonoBehaviour
+public class Ammo : MonoBehaviour
 {
     public int ammo = 1;
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        if(hitInfo.tag == "Player")
+        if (hitInfo.tag == "Player")
         {
             Player player = hitInfo.GetComponent<Player>();
             player.ammo += ammo;
