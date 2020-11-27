@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NPCWeapon : MonoBehaviour
 {
+    // METER HEADERS    [Header("Current Health:")] etc
     // Meter en una clase weaponType o algo asi
     public int ammo = 10;
     public int cartridge = 15;
